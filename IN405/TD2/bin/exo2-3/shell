@@ -1,0 +1,10 @@
+cd /home/ugo-btn/Documents/L2S2/IN405/TD2/bin
+mkdir projet
+cd projet
+mkdir src include doc
+echo Ugo BATTISTON > README
+touch include/func.h src/main.c src/func.c
+tree > content.txt
+cd ..
+cp -r projet projetV2
+tar -cf pV2.tar projetV2 

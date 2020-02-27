@@ -1,0 +1,11 @@
+.
+├── content.txt
+├── doc
+├── include
+│   └── func.h
+├── README
+└── src
+    ├── func.c
+    └── main.c
+
+3 directories, 5 files
