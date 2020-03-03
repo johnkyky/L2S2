@@ -1,13 +1,18 @@
 CC = gcc
 objet = main.o atlacan.o
 
+
 all: $(objet)
-	$(CC) $^
+	$(CC) -Wall $^
+	./a.out
+
+run:
 	./a.out
 
 
 main.o:	main.c
 	$(CC) -c -Wall -o $@ $<
+
 
 atlacan.o: atlacan.c atlacan.h
 	$(CC) -c -o $@ $<
