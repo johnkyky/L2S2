@@ -1,8 +1,8 @@
 all: compile
-	java mainclass
+	java -cp ".:./jars/commons-math3-3.6.1.jar" Mainclass
 
 compile:
-	javac *.java
+	javac -cp ".:./jars/commons-math3-3.6.1.jar" Mainclass.java
 
 clear:
 	rm -f *.class
