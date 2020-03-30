@@ -42,13 +42,16 @@ int load_max_argument(const char* path)
 	return max_argument - '0';
 }
 
-int load_winning_number(int* win_tabl, const int max_arg, const char* path)
+int load_winning_number_gain(int* win_tabl, int* gain_tabl, const int max_arg, const char* path)
 {
 	FILE* file = fopen(path, "r");
 
 	fscanf(file, " %d", &win_tabl[0]);
 	for(int i = 0; i < max_arg; i++)
 		fscanf(file, " %d", &win_tabl[i]);
+
+	for(int i = max_arg - 1; i > -1; i--)
+		fscanf(file, " %d %d", &gain_tabl[i], &gain_tabl[i]);
 
 	fclose(file);
 
@@ -121,13 +124,13 @@ int verif_value(const int max_arg, int* win_tabl, int* client_tabl)
 }
 
 
-int send_message(const int pid, const int count)
+int send_message(const int pid, const int count, const int gain)
 {
 	char path_fifo[64];
 	snprintf(path_fifo, 64, "/tmp/million/%d.ff", pid);
 
 	char message[64];
-	snprintf(message, 64, "tu as trouve %d", count);
+	snprintf(message, 64, "%d %d", count, gain);
 	int fd = open(path_fifo, O_WRONLY);
 	write(fd, message, 64);
 	close(fd);
@@ -143,10 +146,14 @@ int main(int argc, char** argv)
 	int max_argument = load_max_argument(argv[1]);
 
 	int winning_number[max_argument];
-	load_winning_number(winning_number, max_argument, argv[1]);
+	int gain[max_argument];
+	load_winning_number_gain(winning_number, gain, max_argument, argv[1]);
 
 	for(int i = 0; i < max_argument; i++)///a supprimer
 		printf(">%d ", winning_number[i]);///a supprimer
+	printf("\n");///a supprimer
+	for(int i = 0; i < max_argument; i++)///a supprimer
+		printf(">%d ", gain[i]);///a supprimer
 	printf("\n");///a supprimer
 
 	write_config(max_argument);
@@ -155,6 +162,7 @@ int main(int argc, char** argv)
 	size_t len = 0;
 
 	bool done = true;
+	//bool winner_find = false;
 	while(done)
 	{
 		FILE* file = open_file_read();
@@ -175,7 +183,7 @@ int main(int argc, char** argv)
 			if(count)
 				done = false;
 
-			send_message(client_number[0], count);
+			send_message(client_number[0], count, gain[count - 1]);
 
 			fclose(file);
 			empty_file(file);

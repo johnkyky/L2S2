@@ -1,0 +1,279 @@
+\documentclass{article}
+
+\setlength{\topmargin}{-1.54cm}
+\setlength{\oddsidemargin}{-0.04cm}
+\setlength{\evensidemargin}{-0.04cm}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{23cm}
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usetikzlibrary{arrows,automata}
+
+\title{Devoir Maison}
+\date{\today}
+\author{BATTISTON Ugo}
+
+
+\begin{document}
+
+\maketitle
+
+\part*{Exercice 1}
+\subsection*{$L_0$ : \{w $\in$ $\sum$$^{*}$ tel que $|w|_a$ $\equiv$ ($|w|_b$ + $|w|_c$) (mod 2)\}}
+
+\centerline{
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick,/tikz/initial text=]
+	\node (q) at (-2,0) {$A_0$};
+	\node[state, initial,accepting] (q_0) at (0,0) {$q_0$};
+	\node[state]                    (q_1) at (3,0) {$q_1$};
+	\node[state,accepting]          (q_2) at (6,0) {$q_2$};
+	\node[state]                    (q_3) at (1.5,-3) {$q_3$};
+	\node[state,accepting]          (q_4) at (4.5,-3) {$q_4$};
+	\path (q_0) edge [bend left]  node {$b,c$} (q_1)
+				edge [bend right] node {$a$}   (q_3)
+	      (q_1) edge [bend left]  node {$b,c$} (q_0)
+	      		edge 			  node {$a$}   (q_2)
+	      (q_3) edge [bend left]  node {$b,c$} (q_4)
+	      (q_4) edge [bend left]  node {$b,c$} (q_3)
+	            ;
+\end{tikzpicture}
+}
+
+\bigbreak
+
+\subsection*{$L_1$ : \{w $\in$ $\sum$$^{*}$ tel que $|w|_a$ $\equiv$ ($|w|_b$ + $|w|_c$)\}}
+Supposons que $L_1$ soit régulier. D'après le lemme de l'étoile $\exists$ N $>$ 0 tel que $\forall$z $\in$ $L_1$ avec $|z|$ $>$ N :
+
+\begin{itemize}
+\item $\exists$u, v, w tels que z = uvw;
+\item $|v| > 0$;
+\item $|uv| \leq N$;
+\item $\forall| \geq 0, uv^iw \in L_1$;
+\end{itemize}
+$\newline$
+Soit z = uvw $\in L_1$ :
+\begin{itemize}
+\item u = $a^{|w|_a}$;
+\item v = $b^{|w|_b}$;
+\item w = $c^{|w|_c}$;
+\end{itemize}
+$\newline$
+D'après le lemme de l'étoile : $uv^iw \in L_1$,
+$\forall i \in \mathbb{R}^*_+$;\newline
+si $|w|_a$ = ($|w|_b$ + $|w|_c$), alors $|w|_a$ $\ \neq$ ($|w|_b$ + 1 + $|w|_c$)\newline
+Contradiction, on peut en conclure que $L_1$ n'est pas regulier.
+
+
+
+\part*{Exercice 2}
+
+\subsection*{Question 1 :}
+A = (\{a, b\}, \{{$q_0$}, {$q_1$}, {$q_2$}\}, {$q_0$}, \{{$q_1$}\}, \{({$q_0$}, a, {$q_0$}), ({$q_0$}, b, {$q_1$}), ({$q_1$}, a, {$q_1$}), ({$q_1$}, a, {$q_2$}), ({$q_2$}, b, {$q_1$}), ({$q_2$}, b, {$q_0$})\})
+
+
+\subsection*{Question 2 :}
+\centerline{
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick,/tikz/initial text=]
+	\node (q) at (-2,0) {$A$};
+	\node[state, initial] (q_0) at (0,0) {$q_0$};
+	\node[state,accepting]          (q_1) at (3,0) {$q_1$};
+	\node[state,accepting]          (q_2) at (6,0) {$q_1$$q_2$};
+	\node[state,accepting]          (q_3) at (6,-3) {$q_0$$q_1$};
+	\node[state,accepting]          (q_4) at (3,-3) {$q_0$$q_1$$q_2$};
+	\path (q_0) edge [loop above] node {$a$} (q_0)
+	            edge              node {$b$}   (q_1)
+	      (q_1) edge              node {$a$} (q_2)
+	      (q_2) edge [loop above] node {$a$} (q_2)
+	      		edge 			  node {$b$} (q_3)
+	      (q_3) edge [bend right] node {$b$} (q_1)
+	      		edge [bend left]  node {$a$} (q_4)
+	      (q_4) edge [loop above] node {$a$} (q_4)
+	      		edge [bend left]  node {$b$} (q_3)
+	            ;
+\end{tikzpicture}
+}
+
+\subsection*{Question 3 :}
+\centerline{
+On complete l'automate en ajoutant l'etat poubelle et en renommant les etats.
+}
+\centerline{
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick,/tikz/initial text=]
+	\node (q) at (-2,0) {$A$};
+	\node[state, initial] (q_0) at (0,0) {$q_0$};
+	\node[state,accepting]          (q_1) at (3,0) {$q_1$};
+	\node[state,accepting]          (q_2) at (6,0) {$q_2$};
+	\node[state,accepting]          (q_3) at (6,-3) {$q_3$};
+	\node[state,accepting]          (q_4) at (3,-3) {$q_4$};
+	\node[state]		            (p) at (0,-3) {$p$};
+	\path (q_0) edge [loop above] node {$a$} (q_0)
+	            edge              node {$b$}   (q_1)
+	      (q_1) edge              node {$a$} (q_2)
+	      		edge              node {$b$} (p)
+	      (q_2) edge [loop above] node {$a$} (q_2)
+	      		edge 			  node {$b$} (q_3)
+	      (q_3) edge [bend right] node {$b$} (q_1)
+	      		edge [bend left]  node {$a$} (q_4)
+	      (q_4) edge [loop above] node {$a$} (q_4)
+	      		edge [bend left]  node {$b$} (q_3)
+	      (p)   edge [loop above] node {$a, b$} (p)
+	            ;
+\end{tikzpicture}
+}
+
+Ensuite on crée un tableau en les regroupants dans des "classes". La premiere classe est composée des états non finaux et la deuxieme classe des états finaux. On recommence les étapes jusqu'à ce que les classes ne soit pas modifié, on obtiens donc l'automate minimisé.
+
+\bigbreak
+
+\begin{tabularx}{\linewidth}{|X|X|X|X|X|X|X|}
+  	\hline
+        & {$q_0$}  & {$q_1$}  & {$q_2$}  & {$q_3$}  & {$q_4$} & p \\
+    \hline
+     classe  & A & B & B & B & B & A \\
+     a  	 & A & B & B & B & B & A \\
+     b       & B & A & B & B & B & A \\
+    \hline
+     classe  & A & B & C & C & C & D \\
+     a       & A & C & C & C & C & D \\
+     b       & B & D & C & B & C & D \\
+    \hline
+     classe  & A & B & C & D & C & E \\
+     a       & A & C & C & C & C & E \\
+     b       & B & E & D & B & D & E \\
+    \hline
+     classe  & A & B & C & D & C & E \\
+    \hline
+\end{tabularx}
+
+\bigbreak
+
+On peut ensuite construire l'automate grâce au tableau.
+
+\bigbreak
+
+\centerline{
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick,/tikz/initial text=]
+	\node (q) at (-2,0) {$A$};
+	\node[state,initial]          	(A) at (0,0) {$A$};
+	\node[state,accepting]          (B) at (3,0) {$B$};
+	\node[state,accepting]          (C) at (0,-3) {$C$};
+	\node[state,accepting]          (D) at (3,-3) {$D$};
+	\node[state]          (E) at (6,-1.5) {$E$};
+	\path (A) edge [loop above] node {$a$} (A)
+	          edge              node {$b$} (B)
+	      (B) edge [bend right] node {$a$} (C)
+	          edge              node {$b$} (E)
+	      (C) edge [loop below] node {$a$} (C)
+	      	  edge [bend left]  node {$b$} (D)
+	      (D) edge [bend left]  node {$a$} (C)
+	      	  edge              node {$b$} (B)
+	      (E) edge [loop below] node {$a,b$} (E)
+	            ;
+\end{tikzpicture}
+}
+
+\subsection*{Question 4 :}
+
+On rajoute des $\varepsilon$ transition sur l'automate initial.
+
+\bigbreak
+
+\centerline{
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick,/tikz/initial text=]
+	\node (q) at (-2,0) {$A$};
+	\node[state,initial]            (q_i) at (0,0) {$q_i$};
+	\node[state] 					(q_0) at (3,0) {$q_0$};
+	\node[state]		            (q_1) at (6,0) {$q_1$};
+	\node[state]                    (q_2) at (9,0) {$q_2$};
+	\node[state,accepting]          (q_f) at (4.5,3) {$q_f$};
+	\path (q_i) edge 			  node {$\varepsilon$} (q_0)
+	      (q_0) edge              node {$b$} (q_1)
+	      		edge [loop above] node {$a$} (q_0)
+	      (q_1) edge [bend left]  node {$a$} (q_2)
+	      		edge [loop above] node {$a$} (q_1)
+	      (q_2) edge              node {$b$} (q_1)
+	      		edge [bend left]  node {$b$} (q_0)
+	      (q_1) edge [bend left]  node {$\varepsilon$} (q_f)
+	            ;
+\end{tikzpicture}
+}
+
+\bigbreak
+
+\centerline{
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick,/tikz/initial text=]
+	\node (q) at (-2,0) {$A$};
+	\node[state,initial]            (q_i) at (0,0) {$q_i$};
+	\node[state] 					(q_0) at (3,0) {$q_0$};
+	\node[state]		            (q_1) at (6,0) {$q_1$};
+	\node[state]                    (q_2) at (9,0) {$q_2$};
+	\node[state,accepting]          (q_f) at (4.5,3) {$q_f$};
+	\path (q_i) edge 			  node {$\varepsilon$} (q_0)
+	      (q_0) edge              node {$a^{*}b$} (q_1)
+	      (q_1) edge [bend left]  node {$a$} (q_2)
+	      		edge [loop above] node {$a$} (q_1)
+	      (q_2) edge              node {$b$} (q_1)
+	      		edge [bend left]  node {$b$} (q_0)
+	      (q_1) edge [bend left]  node {$\varepsilon$} (q_f)
+	            ;
+\end{tikzpicture}
+}
+
+\bigbreak
+
+\centerline{
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick,/tikz/initial text=]
+	\node (q) at (-2,0) {$A$};
+	\node[state,initial]            (q_i) at (0,0) {$q_i$};
+	\node[state] 					(q_0) at (3,0) {$q_0$};
+	\node[state]		            (q_1) at (6,0) {$q_1$};
+	\node[state]                    (q_2) at (9,0) {$q_2$};
+	\node[state,accepting]          (q_f) at (4.5,3) {$q_f$};
+	\path (q_i) edge 			  node {$\varepsilon$} (q_0)
+	      (q_0) edge              node {$a^{*}ba^{*}$} (q_1)
+	      (q_1) edge [bend left]  node {$a^{+}$} (q_2)
+	      (q_1) edge [bend left]  node {$\varepsilon$} (q_f)
+	      (q_2) edge              node {$b$} (q_1)
+	      		edge [bend left]  node {$b$} (q_0)
+	            ;
+\end{tikzpicture}
+}
+
+\bigbreak
+
+\centerline{
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2cm,semithick,/tikz/initial text=]
+	\node (q) at (-2,0) {$A$};
+	\node[state,initial]            (q_i) at (0,0) {$q_i$};
+	\node[state] 					(q_0) at (3,0) {$q_0$};
+	\node[state]		            (q_1) at (6,0) {$q_1$};
+	\node[state,accepting]          (q_f) at (4.5,3) {$q_f$};
+	\path (q_i) edge 			  node {$\varepsilon$} (q_0)
+	      (q_0) edge              node {$a^{*}ba^{*}$} (q_1)
+	      (q_1) edge [loop below] node {$a^{+}b$} (q_2)
+	            edge [loop above] node {$a^{+}ba^{*}ba^{*}$} (q_1)
+	            edge [bend left]  node {$\varepsilon$} (q_f)
+	            ;
+\end{tikzpicture}
+}
+
+\bigbreak
+
+On obtient donc : $a^{*}ba^{*}.(a^{+}b + a^{+}ba^{*}ba^{*})^{*}$
+
+\subsection*{Question 5 :}
+
+G = (\{a,b\}, \{S,V\}, S, \{(S$\Rightarrow$$a^{*}ba^{*}X$), (X$\Rightarrow$$\varepsilon$), (X$\Rightarrow$$a^{+}b$X), (X$\Rightarrow$$a^{+}ba^{*}ba^{*}$X)\})
+
+\bigbreak
+
+D'après l'expression régulière on obligatoirement $a^{*}ba^{*}$, qu'on affecte à S. Ensuite S appelle une autre variable non terminal X qui vaut soit $\varepsilon$ pour terminer la reconaissance du mot par l'automate soit $a^{+}bX$ ou $a^{+}ba^{*}ba^{*}X$. On a un X à la fin afin de boucler autant de fois qu'on veut sur la variable X jusqu'à avoir $\varepsilon$.
+
+\end{document}

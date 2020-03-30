@@ -14,6 +14,13 @@ int check_max_argument(const int main_argc)
 	int number_value = 0;
 
 	int fd = open("/tmp/million/.config", O_RDONLY);
+
+	if(fd == -1)
+	{
+		fprintf(stderr, "[ERROR] There is no ongoing lottery\n");
+		exit(2);
+	}
+
 	read(fd, &number_value, sizeof(int));
 	close(fd);
 
@@ -62,7 +69,13 @@ int received_message(const char* path)
 	read(fd, &message_received, 64);
 	close(fd);
 
-	printf("message_sent : %s\n", message_received);
+	int count, gain;
+	sscanf(message_received, "%d %d", &count, &gain);
+	printf("message_received : Tu as trouve %d numero, tu repars avec %d$!\n", count, gain);
+
+	if(!count)///voir a la fin pour les code de retour du programme client
+		return 1;
+
 	return 0;
 }
 
@@ -86,3 +99,11 @@ int main(int argc, char** argv)
 	exit(0);
 }
 
+
+/*/////////////////////////////////////////////////////////////////////////////////////
+	4 code de retour differents pour client
+		- 0 le client c est correctement execute mais n a pas trouve de nombre
+		- 1 le client c est correctement execute et a trouve au moins un nombre gagnant
+		- 2 le client c est correctement execute mais n a pas pu joue
+		- -1 le client ne c est pas execute correctement
+/////////////////////////////////////////////////////////////////////////////////////*/
