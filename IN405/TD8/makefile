@@ -1,37 +1,38 @@
 CC = gcc
-FLAGS = -Wall -g -Werror
+FLAGS = -Wall -g
 OBJETS = client.o
-EXEC = client server million
+EXEC = .client .server million
+
+DIR_obj = obj/
+DIR_src = src/
 
 
 all: $(EXEC)
-	rm -fr /tmp/million
 
-
-client: client.o
+.client: $(DIR_obj)client.o
 	$(CC) $(FLAGS) -o $@ $<
 
 
-client.o: client.c
+$(DIR_obj)client.o: $(DIR_src)client.c
 	$(CC) -c $(FLAGS) -o $@ $<
 
 
-server: server.o
+.server: $(DIR_obj)server.o
 	$(CC) $(FLAGS) -o $@ $<
 
 
-server.o: server.c
+$(DIR_obj)server.o: $(DIR_src)server.c
 	$(CC) -c $(FLAGS) -o $@ $<
 
 
-million: million.o
+million: $(DIR_obj)million.o
 	$(CC) $(FLAGS) -o $@ $<
 
 
-million.o: million.c
+$(DIR_obj)million.o: $(DIR_src)million.c
 	$(CC) -c $(FLAGS) -o $@ $<
 
 
 clear:
-	rm *.o
+	rm $(DIR_obj)*.o
 	rm $(EXEC)

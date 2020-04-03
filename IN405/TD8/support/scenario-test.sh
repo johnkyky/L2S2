@@ -12,7 +12,7 @@ echo "2 10" >>$CFG
 echo "1 1" >>$CFG
 
 $EXEC server lottery-test.cfg &
-
+sleep 1
 $EXEC client 2 5 9 12 15
 if [ $? != 0 ]; then
     echo "<TEST> ERR: false combination doesnot get right return code"
