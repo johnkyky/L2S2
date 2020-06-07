@@ -1,12 +1,6 @@
-IN404 exercice 5.3.2
-
-Exemple de l'implémentation de la librarie Apache (non présente dans l'archive) dans un projet java.
-La compilation se fait grâce à la commande "make" dans le terminal. La commande "make clear" permet de supprimer les fichiers génénés par la compilation.
-La librairie est supposée se trouver dans un dossier "jars" et est nonmée "commons-math3-3.6.1"
-
-.
-├── jars
-│   └── commons-math3-3.6.1.jar
-├── Mainclass.java
-├── makefile
-└── README.md
+L'archive BATTISTON_Ugo.tar contient les fichiers :
+- Le fichier README.md que vous êtes en train de lire.
+- Mainclass.java CalculatriceRPN.java MoteurRPN.java SaisieRPN.java Operation.java
+	fichiers sources du programme.
+- Le fichier makefile permetant la compilation grâce à la commande make. La supression des fichiers n'essessaire à 
+	l'éxécution du programme se fait grâce à la commande make clear.

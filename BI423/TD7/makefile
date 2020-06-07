@@ -1,0 +1,2 @@
+BATTISTON_Ugo:
+	python2 BATTISTON_Ugo.py

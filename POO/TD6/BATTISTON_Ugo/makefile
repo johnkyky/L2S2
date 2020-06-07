@@ -1,5 +1,5 @@
 all: compile
-	java Mainclass
+	java Mainclass data
 
 compile:
 	javac *.java
